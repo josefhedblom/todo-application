@@ -2,6 +2,7 @@ import { model, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import isEmail from 'validator/lib/isEmail';
 import isAlpha from 'validator/lib/isAlpha';
+import * as crypto from "crypto";
 
 const UserSchema: Schema = new Schema({
   username: {
@@ -15,12 +16,19 @@ const UserSchema: Schema = new Schema({
     type: String,
     required: [true, "Email is required"],
     validate: [isEmail, "Please enter a valid email"],
-    lowercase: true
+    lowercase: true,
+  },
+  emailToken: {
+    type: String
   },
   password: {
     type: String,
     required: [true, "Password is required"],
     minlength: [10, "Password must be a minimun length of 10 characters"]
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
   },
   missions: []
 });
