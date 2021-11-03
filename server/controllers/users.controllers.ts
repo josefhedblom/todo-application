@@ -1,11 +1,42 @@
 import { SECRET_TOKEN } from '../config/env.config'
 import User from '../models/User.models';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 
-export const user_signup = async (req: Request, res: Response, next: NextFunction) => {
+
+export const membersPage = async (req: Request, res: Response) => {
+
+  if (!req.headers.authorization) {
+    return res.status(400.).json({ error: "Not A Valid Token" })
+  }
+
+  let token = req.headers.authorization.split(" ")[1];
+
+  const verifyToken = jwt.verify(token, SECRET_TOKEN);
+
+  if (verifyToken) {
+
+    const user = await User.findOne({ username: req.params.username });
+
+
+    try {
+
+      if (user) {
+        console.log("User can access member page!");
+        return res.status(200).json({ username: user.username, todos: user.missions });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    console.log("User can't access member page!");
+    return res.status(400).json({ error: "Not Authorized To View Page" });
+  }
+};
+
+export const user_signup = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
   const emailToken = crypto.randomBytes(64).toString('hex')
   const message = `http://localhost:5000/users/verifi-email?token=${emailToken}`
