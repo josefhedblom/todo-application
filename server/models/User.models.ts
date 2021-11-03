@@ -24,6 +24,10 @@ const UserSchema: Schema = new Schema({
     required: [true, "Password is required"],
     minlength: [10, "Password must be a minimun length of 10 characters"]
   },
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
   missions: []
 });
 
