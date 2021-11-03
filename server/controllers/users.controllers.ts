@@ -36,6 +36,8 @@ export const user_login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const authUser = await User.findOne({ email });
 
+  if (!authUser.isVerified) return res.status(401).json({ error: "Verify your account befor loggin" })
+
   if (!authUser) return res.status(401).json({
     title: 'Authentication Error',
     error: 'Invalid Credentials'
