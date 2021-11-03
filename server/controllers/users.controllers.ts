@@ -139,6 +139,35 @@ export const todo_new = async (req: Request, res: Response) => {
   }
 }
 
+export const todo_update = async (req: Request, res: Response) => {
+  if (!req.headers.authorization) {
+    return res.status(400.).json({ error: "Not A Valid Token" })
+  }
+  const { oldtitle, newtitle } = req.body;
+
+  let token = req.headers.authorization.split(" ")[1];
+  const verifyToken = jwt.verify(token, SECRET_TOKEN);
+
+  const userId = Object.values(verifyToken)[0];
+
+  if (verifyToken) {
+    try {
+      const user = await User.findOne({ _id: userId });
+      if (user) {
+        let index = user.missions.indexOf(oldtitle);
+        user.missions[index] = newtitle;
+        user.save();
+        res.status(200).json({ user });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    console.log("User can't access member page!");
+    return res.status(400).json({ error: "Not Authorized To View Page" });
+  }
+}
+
 export const todo_delete = async (req: Request, res: Response) => {
   if (!req.headers.authorization) {
     return res.status(400.).json({ error: "Not A Valid Token" })
