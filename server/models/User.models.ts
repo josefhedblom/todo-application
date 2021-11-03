@@ -2,6 +2,7 @@ import { model, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import isEmail from 'validator/lib/isEmail';
 import isAlpha from 'validator/lib/isAlpha';
+import * as crypto from "crypto";
 
 const UserSchema: Schema = new Schema({
   username: {
@@ -15,7 +16,8 @@ const UserSchema: Schema = new Schema({
     type: String,
     required: [true, "Email is required"],
     validate: [isEmail, "Please enter a valid email"],
-    lowercase: true
+    lowercase: true,
+    emailToken: crypto.randomBytes(64).toString('hex')
   },
   password: {
     type: String,
