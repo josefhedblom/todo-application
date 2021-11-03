@@ -53,7 +53,6 @@ export const user_update = async (req: Request, res: Response) => {
 
 export const user_delete = async (req: Request, res: Response) => {
   const { userId } = req.params
-
   try {
     await User.deleteOne({ _id: userId });
     res.status(200).json({ message: "User has been deleted" });
