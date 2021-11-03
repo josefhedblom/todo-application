@@ -34,6 +34,9 @@ const UserSchema: Schema = new Schema({
 });
 
 UserSchema.pre('save', function (next) {
+  if (!this.isModified('password')) {
+    return next();
+  }
   bcrypt.hash(this.password, 10, (err, hash) => {
     if (err) {
       return next(err);

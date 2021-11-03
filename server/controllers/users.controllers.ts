@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 
 
+
 export const membersPage = async (req: Request, res: Response) => {
 
   if (!req.headers.authorization) {
@@ -13,12 +14,10 @@ export const membersPage = async (req: Request, res: Response) => {
   }
 
   let token = req.headers.authorization.split(" ")[1];
-
   const verifyToken = jwt.verify(token, SECRET_TOKEN);
-
+  const userId = Object.values(verifyToken)[0];
   if (verifyToken) {
-
-    const user = await User.findOne({ username: req.params.username });
+    const user = await User.findOne({ _id: userId });
 
 
     try {
@@ -81,7 +80,7 @@ export const user_login = async (req: Request, res: Response) => {
     error: 'Invalid Credentials'
   });
 
-  const authToken = jwt.sign({ userId: authUser._id }, SECRET_TOKEN);
+  const authToken = jwt.sign({ id: authUser._id }, SECRET_TOKEN);
   return res.status(200).json({
     title: "Login Success",
     token: authToken
@@ -111,4 +110,62 @@ export const user_delete = async (req: Request, res: Response) => {
 
 };
 
+export const todo_new = async (req: Request, res: Response) => {
 
+  if (!req.headers.authorization) {
+    return res.status(400.).json({ error: "Not A Valid Token" })
+  }
+  const { title } = req.body;
+
+  let token = req.headers.authorization.split(" ")[1];
+  const verifyToken = jwt.verify(token, SECRET_TOKEN);
+
+  const userId = Object.values(verifyToken)[0];
+
+  if (verifyToken) {
+    try {
+      const user = await User.findOne({ _id: userId });
+      if (user) {
+        user.missions.push(title)
+        user.save();
+        res.status(200).json({ user });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    console.log("User can't access member page!");
+    return res.status(400).json({ error: "Not Authorized To View Page" });
+  }
+}
+
+export const todo_delete = async (req: Request, res: Response) => {
+  if (!req.headers.authorization) {
+    return res.status(400.).json({ error: "Not A Valid Token" })
+  }
+  const { title } = req.body;
+
+  let token = req.headers.authorization.split(" ")[1];
+  const verifyToken = jwt.verify(token, SECRET_TOKEN);
+
+  const userId = Object.values(verifyToken)[0];
+
+  if (verifyToken) {
+    try {
+      const user = await User.findOne({ _id: userId });
+      if (user) {
+        let index = user.missions.indexOf(title);
+        if (index > -1) {
+          user.missions.splice(index, 1);
+        }
+        user.save();
+        res.status(200).json({ user });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    console.log("User can't access member page!");
+    return res.status(400).json({ error: "Not Authorized To View Page" });
+  }
+}
