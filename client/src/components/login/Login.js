@@ -10,11 +10,11 @@ function Login() {
         <input ref={username} label="Username:" type="text" />
         <input ref={email} label="Email:" type="email" />
         <input ref={password} label="Password:" type="password" />
+        <input ref={password} label="repeat Password:" type="password" />
         <div>
           <button style={submitStyle} type="submit">Submit</button>
         </div>
       </form> */}
-      
     </div>
   )
 }
