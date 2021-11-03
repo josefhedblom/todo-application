@@ -39,7 +39,17 @@ export const user_login = async (req: Request, res: Response) => {
   });
 };
 
-export const user_update = async (req: Request, res: Response) => { }
+export const user_update = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  const updates = req.body;
+  const options = { new: true }
+  try {
+    const userUpdate = await User.findByIdAndUpdate(userId, updates, options);
+    res.status(200).json({ message: "Profile updated", userUpdate: userUpdate });
+  } catch (error) {
+    res.status(500).json({ error: error })
+  }
+}
 
 export const user_delete = async (req: Request, res: Response) => {
   const { userId } = req.params
