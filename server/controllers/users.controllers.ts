@@ -1,19 +1,35 @@
 import { SECRET_TOKEN } from '../config/env.config'
 import User from '../models/User.models';
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 
-export const user_signup = async (req: Request, res: Response) => {
+export const user_signup = async (req: Request, res: Response, next: NextFunction) => {
   const { username, email, password } = req.body;
-
+  const emailToken = crypto.randomBytes(64).toString('hex')
+  const message = `http://localhost:5000/users/verifi-email?token=${emailToken}`
   try {
-    const user = await User.create({ username, email, password })
-    return res.status(201).json({ user });
+    await User.create({ username, email, password, emailToken: emailToken })
+    return res.status(201).json({ message: "Verify your account through your email", emailMessage: message });
   } catch (error) {
     console.log(error);
     res.status(400).json({ error: error });
   }
+}
+
+export const user_veirfy = async (req: Request, res: Response) => {
+  const verifyUser = await User.findOne({ emailToken: req.query.token })
+
+  if (!verifyUser) {
+    return res.status(400).json({ error: "Could not verify the account, please contact our support, support@support.com" })
+  }
+  const userId = verifyUser._id
+  const userUpdates = { emailToken: null, isVerified: true }
+  const options = { new: true }
+
+  const updateUser = await User.findByIdAndUpdate(userId, userUpdates, options)
+  res.status(200).json({ message: "Account verifiyed", updateUser: updateUser });
 }
 
 export const user_login = async (req: Request, res: Response) => {
@@ -60,4 +76,6 @@ export const user_delete = async (req: Request, res: Response) => {
     res.status(500).json({ error: error });
   }
 
-}
+};
+
+

@@ -17,7 +17,9 @@ const UserSchema: Schema = new Schema({
     required: [true, "Email is required"],
     validate: [isEmail, "Please enter a valid email"],
     lowercase: true,
-    emailToken: crypto.randomBytes(64).toString('hex')
+  },
+  emailToken: {
+    type: String
   },
   password: {
     type: String,
