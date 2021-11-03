@@ -125,7 +125,7 @@ export const todo_new = async (req: Request, res: Response) => {
     try {
       const user = await User.findOne({ _id: userId });
       if (user) {
-        user.missions.push({ title: title, completed: false })
+        user.missions.push({ title: title, id: crypto.randomBytes(64).toString('hex') })
         user.save();
         res.status(200).json({ user });
       }
