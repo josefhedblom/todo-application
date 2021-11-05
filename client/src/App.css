@@ -57,7 +57,7 @@ body {
   width: 100%;
   max-width: 68rem;
   margin: 0 auto;
-  font: 1.6rem/1.25 Arial, sans-serif;
+  font: 1.6rem/1.25 Serif, sans-serif;
   background-color: #f5f5f5;
   color: #4d4d4d;
 }
@@ -78,6 +78,7 @@ body {
   border: 0.2rem solid #4d4d4d;
   cursor: pointer;
   text-transform: capitalize;
+  border-radius: 6px;
 }
 .btn.toggle-btn {
   border-width: 1px;
@@ -89,8 +90,9 @@ body {
 }
 .btn__danger {
   color: #fff;
-  background-color: #ca3c3c;
-  border-color: #bd2130;
+  background-color: #acdaeb;
+  border-color: #71b7d0;
+  border-radius: 6px;
 }
 .btn__filter {
   border-color: lightgrey;
@@ -225,7 +227,7 @@ body {
 /* CHECKBOX STYLES */
 .c-cb {
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: serif, sans-serif;
   -webkit-font-smoothing: antialiased;
   font-weight: 400;
   font-size: 1.6rem;
@@ -267,10 +269,6 @@ body {
   position: absolute;
   border: 2px solid currentColor;
   background: transparent;
-}
-.c-cb > input[type="checkbox"]:focus + label::before {
-  border-width: 4px;
-  outline: 3px dashed #228bec;
 }
 .c-cb > label::after {
   box-sizing: content-box;
