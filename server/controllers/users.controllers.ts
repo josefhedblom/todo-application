@@ -36,11 +36,14 @@ export const membersPage = async (req: Request, res: Response) => {
 };
 
 export const user_signup = async (req: Request, res: Response) => {
-  const { username, email, password } = req.body;
+  const { username, email, password } = req.body
+  // const username = req.body.username;
+  // const email = req.body.email;
+  // const password = req.body.password;
   const emailToken = crypto.randomBytes(64).toString('hex')
-  const message = `http://localhost:5000/users/verifi-email?token=${emailToken}`
+  const message = `users/verifi-email?token=${emailToken}`
   try {
-    await User.create({ username, email, password, emailToken: emailToken })
+    await User.create({ username, email, password, emailToken })
     return res.status(201).json({ message: "Verify your account through your email", emailMessage: message });
   } catch (error) {
     console.log(error);
