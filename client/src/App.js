@@ -5,7 +5,7 @@ import {
   Route
 } from "react-router-dom";
 
-import Todo from "./components/Todo";
+//import Todo from "./components/Todo";
 import Login from './components/login/Login';
 import Register from './components/register/Register';
 import './App.css';
