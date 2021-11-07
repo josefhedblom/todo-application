@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { create, verification, login, deleteOneUser, findOneUser } from '../services/user.service';
+import { create, verification, login, deleteOneUser, findOneUser } from '../services/users.services';
 import emailVerfication from '../helpers/emailVerfication.helper'
 
 export const account = async (req: Request, res: Response) => {
