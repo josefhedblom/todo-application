@@ -1,8 +1,22 @@
-import { model, Schema } from "mongoose";
+import Mongoose, { Schema, Document } from "mongoose";
 import bcrypt from "bcrypt";
 import isEmail from 'validator/lib/isEmail';
 import isAlpha from 'validator/lib/isAlpha';
-import * as crypto from "crypto";
+
+export interface UserInput extends Document {
+  username: string;
+  email?: string;
+  password?: string;
+  emailToken?: string | null;
+  isVerified?: boolean;
+  missions?: Array<string>
+}
+
+export interface UserDocument extends UserInput, Mongoose.Document {
+  createdAt: Date;
+  updatedAt: Date;
+  comparePassword(candidatePassword: string): Promise<boolean>;
+}
 
 const UserSchema: Schema = new Schema({
   username: {
@@ -31,21 +45,24 @@ const UserSchema: Schema = new Schema({
     default: false
   },
   missions: []
+}, {
+  timestamps: true
 });
 
-UserSchema.pre('save', function (next) {
-  if (!this.isModified('password')) {
-    return next();
-  }
-  bcrypt.hash(this.password, 10, (err, hash) => {
-    if (err) {
-      return next(err);
-    } else {
-      this.password = hash;
-      next();
-    }
-  })
+UserSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+
+  const salt = await bcrypt.genSalt(10);
+  const hash = bcrypt.hashSync(this.password, salt)
+
+  this.password = hash;
+  next();
 });
 
-const User = model('user', UserSchema);
-export default User;
+UserSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
+  const user = this;
+  return bcrypt.compare(candidatePassword, user.password).catch(error => false);
+}
+
+const UserModel = Mongoose.model<UserDocument>("User", UserSchema);
+export default UserModel;
