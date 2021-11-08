@@ -1,6 +1,6 @@
 import { SECRET_TOKEN } from '../config/env.config'
 import { CreateQuery } from 'mongoose';
-import UserModel, { UserInput } from '../models/User.models';
+import UserModel, { UserInput } from '../models/User.model';
 import jwt from 'jsonwebtoken';
 
 const result = { status: 200, message: "" }
