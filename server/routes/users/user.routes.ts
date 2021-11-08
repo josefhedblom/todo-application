@@ -1,7 +1,7 @@
 import Express from 'express';
 const UserRouter = Express.Router()
-import isValidToken from '../helpers/verifyToken.helpers'
-import { createUser, verifyUser, loginUser, deleteUser, account } from '../controllers/users.controller';
+import isValidToken from '../../helpers/verifyToken.helpers'
+import { createUser, verifyUser, loginUser, deleteUser, account } from '../../controllers/users.controller';
 
 
 UserRouter.get('/verifi-email', verifyUser);
