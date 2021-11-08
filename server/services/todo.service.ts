@@ -14,6 +14,19 @@ export async function createTodo(title: string) {
   return result;
 }
 
+export async function updateTodo(todoId: string, title: string) {
+  await TodoModel.findOneAndUpdate({ _id: todoId }, { "$set": { "title": title } }, { new: true })
+    .exec()
+    .then(() => {
+      result.message = `Todo has been updated`
+    })
+    .catch((error: Error) => {
+      result.status = 500;
+      result.message = `${error.message}`
+    })
+  return result;
+}
+
 export async function deleteTodo(todoId: string) {
   await TodoModel.deleteOne({ _id: todoId })
     .exec()
