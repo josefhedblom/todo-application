@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import { createTodo, deleteTodo, updateTodo, fetchTodos } from '../services/todo.service';
 
 export const todos = async (req: Request, res: Response) => {
-  const todos = await fetchTodos(res.locals.user.id);
-  res.status(200).json(todos)
+  const allTodos = await fetchTodos(res.locals.user.id);
+  res.status(200).json(allTodos)
 }
 
 export const create = async (req: Request, res: Response) => {
