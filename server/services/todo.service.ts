@@ -2,6 +2,10 @@ import TodoModel from '../models/Todo.model';
 
 const result = { status: 200, message: "" }
 
+export async function fetchTodos(userId: string) {
+  return await TodoModel.find({ user: userId })
+}
+
 export async function createTodo(title: string) {
   try {
     await TodoModel.create({ title })
