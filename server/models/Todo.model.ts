@@ -2,6 +2,7 @@ import Mongoose, { Schema, Document } from "mongoose";
 
 export interface TodoInput extends Document {
   title: string;
+  user: string;
 }
 
 export interface TodoDocument extends TodoInput, Mongoose.Document {
@@ -11,7 +12,13 @@ export interface TodoDocument extends TodoInput, Mongoose.Document {
 
 const TodoSchema: Schema = new Schema({
   title: {
-    type: String
+    type: String,
+    required: [true, "Title is required"],
+    lowercase: true
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   }
 }, {
   timestamps: true
