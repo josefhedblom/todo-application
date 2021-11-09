@@ -3,11 +3,9 @@ import { useState } from 'react';
 import axios from 'axios';
 
 function Login() {
-  // const username = "";
 
   const [email, Setemail] = useState('')
   const [password, Setpassword] = useState('')
-  const [token, Settoken] = useState('')
 
   const handlePasswordInput = (e) => {
     Setpassword(e.target.value)
@@ -20,13 +18,11 @@ function Login() {
     e.preventDefault()
     const newUser = { email: email, password: password }
 
-    axios.post('http://localhost:3000/users/login', newUser)
+    axios.post('http://localhost:3000/login', newUser)
       .then(response => {
         if (response.status === 200) {
           console.log('User is in')
-          Settoken(response.data.token)
         }
-        localStorage.setItem("jwt", response.data.token);
       }).catch(error => {
         console.log("fuck it")
       })
