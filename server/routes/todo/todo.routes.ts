@@ -8,7 +8,7 @@ import { createTodoValidationCheck } from '../../middleware/todoValidation/todoV
 const Route = Router()
 Route.get("/", isValidToken, todos)
 Route.post("/new", isValidToken, createTodoValidationCheck, validationRequestResults, create);
-Route.patch("/:todoId", isValidToken, updateOneTodo)
+Route.patch("/:todoId", isValidToken, createTodoValidationCheck, updateOneTodo)
 Route.delete('/:todoId', isValidToken, deleteOneTodo)
 
 
