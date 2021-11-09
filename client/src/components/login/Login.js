@@ -1,10 +1,7 @@
 import React from 'react'
-
-import { useForm } from "react-hook-form";
-
-import '../stil/form.css'
-
 import { useState } from 'react';
+import { useForm } from "react-hook-form";
+import '../stil/form.css'
 import axios from 'axios';
 
 
@@ -36,8 +33,8 @@ function Login() {
   return (
     <div id="log">
       <div className="formPage">
-      <h1> Logga in </h1>
-    {/* <form onSubmit={handleSubmit} >
+        <h1> Logga in </h1>
+        {/* <form onSubmit={handleSubmit} >
         <input ref={username} label="Username:" type="text" />
         <input ref={password} label="Password:" type="password" />
     <div>
@@ -51,17 +48,17 @@ function Login() {
         </div>
       </form> */}
 
-      <form id='userForm'>
-        <input label="Username:" type="text" placeholder='Username'/>
-        <input label="Password:" type="password" placeholder='Password'/>
-        <div id='knappDiv'>
-          <button type="submit" id="skickaKnapp">Submit</button>
-        </div>
-      <a href='../../register/Register.js'>skapa konto här</a>
+        <form id='userForm' onSubmit={handleSubmit}>
+          <input label="Email:" type="email" name="email" onChange={handleEmailInput} placeholder="Email" />
+          <input label="Password:" type="password" name="password" onChange={handlePasswordInput} placeholder="Password" />
+          <div id='knappDiv'>
+            <button type="submit" id="skickaKnapp">Submit</button>
+          </div>
+          <a href='../../register/Register.js'>skapa konto här</a>
 
-      </form>
-    </div>
+        </form>
       </div>
+    </div>
   )
 }
 

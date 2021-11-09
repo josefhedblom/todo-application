@@ -1,8 +1,5 @@
-
 import React from 'react';
 import '../stil/form.css'
-
-import React from 'react'
 import { useState } from 'react';
 import axios from 'axios';
 
@@ -54,7 +51,7 @@ function Register() {
 
     <div id="reg">
       <div className="formPage">
-      <h1> Registrera dig </h1>
+        <h1> Registrera dig </h1>
         {/* <form onSubmit={handleSubmit} >
         <input ref={username} label="Username:" type="text" />
         <input ref={email}    label="Email:" type="email" />
@@ -64,19 +61,20 @@ function Register() {
           <button style={submitStyle} type="submit">Submit</button>
         </div>
       </form> */}
-      
-      <form id='userForm' onSubmit={handleSubmit} >
-        <input label="Username:" name="username" type="text" onChange={handleUsernameInput} />
-        <input label="Email:" name="email" type="email" onChange={handleEmailInput} />
-        <input label="Password:" name="password" type="password" onChange={handlePasswordInput} />
-        <div>
-          <button id="skickaKnapp" type="submit">Submit</button>
-        </div>
-      </form>
-      <div>
 
+        <form id='userForm' onSubmit={handleSubmit} >
+          <input label="Username:" name="username" type="text" onChange={handleUsernameInput} placeholder="Username" />
+          <input label="Email:" name="email" type="email" onChange={handleEmailInput} placeholder="Email" />
+          <input label="Password:" name="password" type="password" onChange={handlePasswordInput} placeholder="Password" />
+          <div>
+            <button id="skickaKnapp" type="submit">Submit</button>
+          </div>
+        </form>
+        <div>
+
+        </div>
+        <a href='../../login/LoginJs' >redan medlem? logga in här</a>
       </div>
-          <a href='../../login/LoginJs' >redan medlem? logga in här</a>
     </div>
   )
 }
