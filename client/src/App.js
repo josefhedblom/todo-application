@@ -6,7 +6,9 @@ import {
 } from "react-router-dom";
 import { Redirect } from 'react-router'
 
+
 // import Todo from "./components/todos/Todo";
+
 import Login from './components/login/Login';
 import Register from './components/register/Register';
 import './App.css';
