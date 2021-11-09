@@ -1,6 +1,11 @@
+
+import React from 'react';
+import '../stil/form.css'
+
 import React from 'react'
 import { useState } from 'react';
 import axios from 'axios';
+
 
 function Register() {
 
@@ -47,18 +52,31 @@ function Register() {
   }
   return (
 
-    <div>
-      <form onSubmit={handleSubmit} >
+    <div id="reg">
+      <div className="formPage">
+      <h1> Registrera dig </h1>
+        {/* <form onSubmit={handleSubmit} >
+        <input ref={username} label="Username:" type="text" />
+        <input ref={email}    label="Email:" type="email" />
+        <input ref={password} label="Password:" type="password" />
+        <input ref={password} label="repeat Password:" type="password" />
+        <div>
+          <button style={submitStyle} type="submit">Submit</button>
+        </div>
+      </form> */}
+      
+      <form id='userForm' onSubmit={handleSubmit} >
         <input label="Username:" name="username" type="text" onChange={handleUsernameInput} />
         <input label="Email:" name="email" type="email" onChange={handleEmailInput} />
         <input label="Password:" name="password" type="password" onChange={handlePasswordInput} />
         <div>
-          <button type="submit">Submit</button>
+          <button id="skickaKnapp" type="submit">Submit</button>
         </div>
       </form>
       <div>
-        {isemailToken ? <button onClick={verifyEmail}>Email</button> : null}
+
       </div>
+          <a href='../../login/LoginJs' >redan medlem? logga in här</a>
     </div>
   )
 }
