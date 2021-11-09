@@ -3,7 +3,7 @@ import { CreateQuery } from 'mongoose';
 import UserModel, { UserInput } from '../models/User.model';
 import jwt from 'jsonwebtoken';
 
-const result = { status: 200, message: "" }
+const result = { status: 200, message: "", token: "" }
 
 export async function findOneUser(query: string) {
   return UserModel.findOne({ _id: query })
@@ -62,8 +62,9 @@ export async function login({ email, password }: { email: string; password: stri
     return result
   }
 
-  const authToken = jwt.sign({ id: authUser?._id }, SECRET_TOKEN);
-  result.message = `Login Success, token: ${authToken}`
+  const payload = { username: authUser.username, email: authUser.email, id: authUser._id }
+  const accessToken = jwt.sign(payload, SECRET_TOKEN, { algorithm: 'HS256', expiresIn: "1h" });
+  result.token = accessToken
 
   return result;
 }

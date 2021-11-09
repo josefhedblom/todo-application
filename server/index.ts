@@ -1,10 +1,11 @@
 import Express from 'express';
+import cookieParser from 'cookie-parser'
 
 const App = Express();
 const PORT = 5000
 App.use(Express.urlencoded({ extended: true }))
 App.use(Express.json());
-
+App.use(cookieParser());
 
 import connectDB from './config/db.config';
 import { UserRouter } from './routes/user/user.routes';

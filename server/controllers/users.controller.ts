@@ -26,6 +26,10 @@ export const verifyUser = async (req: Request, res: Response) => {
 export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const user = await login({ email, password })
+  res.cookie(user.token, {
+    secure: false,
+    httpOnly: true
+  })
   res.status(user.status).json({ message: user.message });
 }
 
