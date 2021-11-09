@@ -8,7 +8,6 @@ import axios from 'axios';
 
 
 function Register() {
-  // const username = "";
 
   const [username, Setusername] = useState('')
   const [email, Setemail] = useState('')
@@ -30,12 +29,12 @@ function Register() {
     const newUser = { username: username, email: email, password: password }
     console.log(newUser)
 
-    axios.post('http://localhost:3000/users/signup', newUser)
+    axios.post('http://localhost:3000/signup', newUser)
       .then(response => {
         if (response.status === 201) {
-          SetEmailToken(response.data.emailMessage)
+          SetEmailToken(response.data.emailVerfication)
           SetIsEmailToken(true)
-          console.log('User is created', response.data.emailMessage)
+          console.log('User is created', response.data.emailVerfication)
         }
       }).catch(error => {
         console.log("fuck it")
