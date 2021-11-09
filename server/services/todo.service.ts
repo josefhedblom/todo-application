@@ -6,9 +6,9 @@ export async function fetchTodos(userId: string) {
   return await TodoModel.find({ user: userId })
 }
 
-export async function createTodo(title: string) {
+export async function createTodo(title: string, id: string) {
   try {
-    await TodoModel.create({ title })
+    await TodoModel.create({ title, user: id })
     result.status = 201;
     result.message = "Todo has been created";
   } catch (error) {
