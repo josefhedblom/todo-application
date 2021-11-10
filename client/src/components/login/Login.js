@@ -30,6 +30,17 @@ function Login() {
         console.log("fuck it")
       })
   }
+
+  const logOut = () => {
+    axios.get('http://localhost:3000/logout')
+      .then(response => {
+        if (response.status === 200) {
+          console.log('logged out')
+        }
+      }).catch(error => {
+        console.log(error)
+      })
+  }
   return (
     <div id="log">
       <div className="formPage">
@@ -58,6 +69,7 @@ function Login() {
 
         </form>
       </div>
+      <button onClick={logOut}>Logout</button>
     </div>
   )
 }
