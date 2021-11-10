@@ -1,10 +1,12 @@
 import React from 'react'
+import { useHistory } from "react-router-dom";
 import { useState } from 'react';
 import '../stil/form.css'
 import axios from 'axios';
 
 
 function Login() {
+  const history = useHistory();
 
   const [email, Setemail] = useState('')
   const [password, Setpassword] = useState('')
@@ -24,6 +26,7 @@ function Login() {
       .then(response => {
         if (response.status === 200) {
           console.log('User is in')
+          history.push("/todos");
         }
       }).catch(error => {
         console.log(error)
