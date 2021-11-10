@@ -34,7 +34,7 @@ function Register() {
           console.log('User is created', response.data.emailVerfication)
         }
       }).catch(error => {
-        console.log("fuck it")
+        console.log(error)
       })
   }
 
@@ -52,15 +52,6 @@ function Register() {
     <div id="reg">
       <div className="formPage">
         <h1> Registrera dig </h1>
-        {/* <form onSubmit={handleSubmit} >
-        <input ref={username} label="Username:" type="text" />
-        <input ref={email}    label="Email:" type="email" />
-        <input ref={password} label="Password:" type="password" />
-        <input ref={password} label="repeat Password:" type="password" />
-        <div>
-          <button style={submitStyle} type="submit">Submit</button>
-        </div>
-      </form> */}
 
         <form id='userForm' onSubmit={handleSubmit} >
           <input label="Username:" name="username" type="text" onChange={handleUsernameInput} placeholder="Username" />

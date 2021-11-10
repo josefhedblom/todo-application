@@ -1,21 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import '../../App.css'
+import axios from 'axios'
 
-function Todo(props) {
+function Todo({ id, title, completed }) {
+    const [todo, SetTodo] = useState('');
+
+
+    const deleteTodo = (todoId) => {
+        axios.delete(`http://localhost:3000/todo/${todoId}`)
+    }
     return (
-        <li className="todo stack-small">
+        <li key={id} className="todo stack-small">
             <div className="c-cb">
-                <input id={props.id} type="checkbox" defaultChecked={props.completed} />
-                <label className="todo-label" htmlFor={props.id}>
-                    {props.name}
-                </label>
+                <input id={id} type="checkbox" defaultChecked={completed} />
+                <label className="todo-label" htmlFor={id}>{title}</label>
             </div>
             <div className="btn-group">
                 <button type="button" className="btn">
-                    Edit <span className="visually-hidden">{props.name}</span>
+                    Edit <span className="visually-hidden"></span>
                 </button>
-                <button type="button" className="btn btn__danger">
-                    Delete <span className="visually-hidden">{props.name}</span>
+                <button onClick={deleteTodo} type="button" className="btn btn__danger">
+                    Delete <span className="visually-hidden"></span>
                 </button>
             </div>
         </li>
