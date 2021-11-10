@@ -1,106 +1,110 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import '../../App.css'
+import axios from 'axios'
+function TodosComp() {
+    const [todos, SetTodos] = useState([]);
+    const [todo, SetTodo] = useState("");
+    const [todoEditing, SetTodoEditing] = useState(null);
+    const [todoTextEditing, SetTodoTextEditing] = useState("");
+    const [isRendered, SetIsRendered] = useState(false)
 
-function todosComp(props) {
+    const fetchData = () => {
+        SetIsRendered(true);
+        axios('http://localhost:3000/todo')
+            .then(results => {
+                console.log(results.data.todos)
+                SetTodos(results.data.todos)
+            })
+        return () => {
+            SetIsRendered(false);
+        };
+    }
+    useEffect(() => {
+        fetchData()
+    }, []);
+
+    const handleSubmit = async () => {
+        const newTodo = { title: todo }
+        await axios.post(`http://localhost:3000/todo/new/`, newTodo)
+            .then(response => {
+                SetTodo("")
+                fetchData()
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+    const editTodo = async (id) => {
+        const newTodo = { title: todoTextEditing }
+        await axios.patch(`http://localhost:3000/todo/${id}`, newTodo)
+            .then(response => {
+                SetTodoTextEditing("");
+                SetTodoEditing(null);
+                fetchData()
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+    const deleteTodo = async (todoId) => {
+        await axios.delete(`http://localhost:3000/todo/${todoId}`)
+        fetchData()
+    }
     return (
         <div>
 
             <div className="todoapp stack-large">
                 <h1>Missions</h1>
-                <form>
-                    {/* <h2 className="label-wrapper">
-                        <label htmlFor="new-todo-input" className="label__lg">
-                            Add another task:
-                        </label>
-
-                    </h2> */}
+                <form onSubmit={handleSubmit}>
                     <input
-                        type="text"
                         id="new-todo-input"
                         className="input input__lg"
-                        name="text"
-                        autoComplete="off"
+                        label="Todo" name="todo"
+                        type="text" onChange={(e) => SetTodo(e.target.value)}
+                        value={todo}
                     />
-                    <button type="submit" className="btn btn__primary btn__lg">
+                    <button on type="submit" className="btn btn__primary btn__lg">
                         Add
                     </button>
                 </form>
-                <div className="filters btn-group stack-exception">
-                    <button type="button" className="btn toggle-btn" aria-pressed="true">
-                        <span className="visually-hidden">Show </span>
-                        <span>all</span>
-                        <span className="visually-hidden"> tasks</span>
-                    </button>
-                    <button type="button" className="btn toggle-btn" aria-pressed="false">
-                        <span className="visually-hidden">Show </span>
-                        <span>Active</span>
-                        <span className="visually-hidden"> tasks</span>
-                    </button>
-                    <button type="button" className="btn toggle-btn" aria-pressed="false">
-                        <span className="visually-hidden">Show </span>
-                        <span>Completed</span>
-                        <span className="visually-hidden"> tasks</span>
-                    </button>
-                </div>
-                <ul
-                    role="list"
-                    className="todo-list stack-large stack-exception"
-                    aria-labelledby="list-heading"
-                >
-                    <li className="todo stack-small">
-                        <div className="c-cb">
-                            <input id="todo-0" type="checkbox" defaultChecked={true} />
-                            <label className="todo-label" htmlFor="todo-0">
-                                Eat
-                            </label>
-                        </div>
-                        <div className="btn-group">
-                            <button type="button" className="btn">
-                                Edit <span className="visually-hidden">Eat</span>
-                            </button>
-                            <button type="button" className="btn btn__danger">
-                                Delete <span className="visually-hidden">Eat</span>
-                            </button>
-                        </div>
-                    </li>
-                    <li className="todo stack-small">
-                        <div className="c-cb">
-                            <input id="todo-1" type="checkbox" />
-                            <label className="todo-label" htmlFor="todo-1">
-                                Sleep
-                            </label>
-                        </div>
-                        <div className="btn-group">
-                            <button type="button" className="btn">
-                                Edit <span className="visually-hidden">Sleep</span>
-                            </button>
-                            <button type="button" className="btn btn__danger">
-                                Delete <span className="visually-hidden">Sleep</span>
-                            </button>
-                        </div>
-                    </li>
-                    <li className="todo stack-small">
-                        <div className="c-cb">
-                            <input id="todo-2" type="checkbox" />
-                            <label className="todo-label" htmlFor="todo-2">
-                                Repeat
-                            </label>
-                        </div>
-                        <div className="btn-group">
-                            <button type="button" className="btn">
-                                Edit <span className="visually-hidden">Repeat</span>
-                            </button>
-                            <button type="button" className="btn btn__danger">
-                                Delete <span className="visually-hidden">Repeat</span>
-                            </button>
-                        </div>
-                    </li>
+                {todos.map((todo) => {
+                    return (
+                        <li key={todo._id} className="todo stack-small">
+                            <div className="btn-group">
+                                {todoEditing === todo._id ? (
+                                    <input
+                                        type="text"
+                                        onChange={(e) => SetTodoTextEditing(e.target.value)}
+                                        value={todoTextEditing}
+                                    />
+                                ) :
+                                    (
+                                        <div>
+                                            <label className="todo-label" >{todo.title}</label>
+                                        </div>
+                                    )}
 
-                </ul>
+                                {todoEditing === todo._id ? (
+                                    <button onClick={() => editTodo(todo._id)} type="submit" className="btn">
+                                        Submit <span className="visually-hidden"></span>
+                                    </button>
+                                ) : (
+                                    <button onClick={() => SetTodoEditing(todo._id)} type="button" className="btn">
+                                        Edit <span className="visually-hidden"></span>
+                                    </button>
+                                )}
+
+                                <button onClick={() => deleteTodo(todo._id)} type="submit" className="btn btn__danger">
+                                    Delete <span className="visually-hidden"></span>
+                                </button>
+                            </div>
+                        </li>
+                    )
+                })}
             </div>
-
         </div>
     )
 }
 
-export default todosComp
+export default TodosComp
