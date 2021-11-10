@@ -11,6 +11,7 @@ import {
   createUser,
   verifyUser,
   loginUser,
+  logoutUser,
   deleteUser,
   account
 }
@@ -22,6 +23,7 @@ Route.get("/account/", isValidToken, account);
 Route.get('/verifi-email', verifyUser);
 Route.post('/signup', userRegisterValidationCheck, validationRequestResults, createUser);
 Route.post('/login', userLoginValidationCheck, validationRequestResults, loginUser);
+Route.get('/logout', logoutUser);
 Route.delete('/:userId', deleteUser);
 
 export { Route as UserRouter }
