@@ -41,10 +41,10 @@ function Register() {
   const verifyEmail = () => {
     axios.get(emailToken)
       .then(response => {
-        console.log('Ja!')
+        console.log(response.data)
       })
       .catch(error => {
-        console.log('kuken!');
+        console.log(error);
       })
   }
   return (
@@ -75,6 +75,7 @@ function Register() {
         </div>
         <a href='../../login/LoginJs' >redan medlem? logga in här</a>
       </div>
+      <button onClick={verifyEmail}>Verify Email</button>
     </div>
   )
 }
