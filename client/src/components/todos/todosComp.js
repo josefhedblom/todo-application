@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from "react-router-dom";
 import '../../App.css'
 import axios from 'axios'
 function TodosComp() {
+    const history = useHistory();
     const [todos, SetTodos] = useState([]);
     const [todo, SetTodo] = useState("");
     const [todoEditing, SetTodoEditing] = useState(null);
@@ -12,8 +14,13 @@ function TodosComp() {
         SetIsRendered(true);
         axios('http://localhost:3000/todo')
             .then(results => {
+                console.log(results)
                 console.log(results.data.todos)
                 SetTodos(results.data.todos)
+            })
+            .catch(error => {
+                console.log(error)
+                history.push("/login");
             })
         return () => {
             SetIsRendered(false);

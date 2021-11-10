@@ -1,10 +1,12 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import '../stil/form.css'
 import { useState } from 'react';
 import axios from 'axios';
 
 
 function Register() {
+  const history = useHistory();
 
   const [username, Setusername] = useState('')
   const [email, Setemail] = useState('')
@@ -42,6 +44,7 @@ function Register() {
     axios.get(emailToken)
       .then(response => {
         console.log(response.data)
+        history.push("/login");
       })
       .catch(error => {
         console.log(error);

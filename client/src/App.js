@@ -16,9 +16,9 @@ function App() {
   return (
     <Router>
       <Switch>
+        <Route exact path="/" component={Register} />
         <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/" component={todosComp} />
+        <Route path="/todos" component={todosComp} />
       </Switch>
     </Router>
   );
