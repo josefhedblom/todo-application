@@ -43,8 +43,8 @@ export const verifyUser = async (req: Request, res: Response) => {
 }
 
 export const loginUser = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-  const authUser = await UserModel.findOne({ email });
+  const { username, password } = req.body;
+  const authUser = await UserModel.findOne({ username });
 
   if (!authUser!.isVerified) {
     return res.status(401).json({ message: "Verify your account befor loggin" })
