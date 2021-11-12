@@ -12,7 +12,7 @@ function TodosComp() {
 
     const fetchData = () => {
         SetIsRendered(true);
-        axios('http://localhost:3000/todo')
+        axios('/todo')
             .then(results => {
                 console.log(results)
                 console.log(results.data.todos)
@@ -32,7 +32,7 @@ function TodosComp() {
 
     const handleSubmit = async () => {
         const newTodo = { title: todo }
-        await axios.post(`http://localhost:3000/todo/new/`, newTodo)
+        await axios.post(`/todo/new/`, newTodo)
             .then(response => {
                 SetTodo("")
                 fetchData()
@@ -45,9 +45,9 @@ function TodosComp() {
     const editTodo = async (id) => {
         if (todoTextEditing === "") {
             return false
-          }
+        }
         const newTodo = { title: todoTextEditing }
-        await axios.patch(`http://localhost:3000/todo/${id}`, newTodo)
+        await axios.patch(`/todo/${id}`, newTodo)
             .then(response => {
                 SetTodoTextEditing("");
                 SetTodoEditing(null);
@@ -58,11 +58,11 @@ function TodosComp() {
             })
     }
     const deleteTodo = async (todoId) => {
-        await axios.delete(`http://localhost:3000/todo/${todoId}`)
+        await axios.delete(`/todo/${todoId}`)
         fetchData()
     }
     const logout = async () => {
-        await axios.get(`http://localhost:3000/logout`)
+        await axios.get(`/logout`)
         history.push("/login");
     }
     return (
@@ -77,18 +77,17 @@ function TodosComp() {
                         label="Todo" name="todo"
                         type="text" onChange={(e) => SetTodo(e.target.value)}
                         value={todo}
-                        // minLength="1"
-                        />
-                        
+                    />
+
                     <button type="submit" className="btn btn__primary btn__lg">
                         Add
                     </button>
                 </form>
-                {todos.map((todo) => {
+                {todos.map((item) => {
                     return (
-                        <li key={todo._id} className="todo stack-small">
+                        <li key={item._id} className="todo stack-small">
                             <div className="btn-group">
-                                {todoEditing === todo._id ? (
+                                {todoEditing === item._id ? (
                                     <input
                                         type="text"
                                         onChange={(e) => SetTodoTextEditing(e.target.value)}
@@ -97,21 +96,21 @@ function TodosComp() {
                                 ) :
                                     (
                                         <div>
-                                            <label className="todo-label" >{todo.title}</label>
+                                            <label className="todo-label" >{item.title}</label>
                                         </div>
                                     )}
 
-                                {todoEditing === todo._id ? (
-                                    <button onClick={() => editTodo(todo._id)} type="submit" className="btn">
+                                {todoEditing === item._id ? (
+                                    <button onClick={() => editTodo(item._id)} type="submit" className="btn">
                                         Submit <span className="visually-hidden"></span>
                                     </button>
                                 ) : (
-                                    <button onClick={() => SetTodoEditing(todo._id)} type="button" className="btn">
+                                    <button onClick={() => SetTodoEditing(item._id)} type="button" className="btn">
                                         Edit <span className="visually-hidden"></span>
                                     </button>
                                 )}
 
-                                <button onClick={() => deleteTodo(todo._id)} type="submit" className="btn btn__danger">
+                                <button onClick={() => deleteTodo(item._id)} type="submit" className="btn btn__danger">
                                     Done <span className="visually-hidden"></span>
                                 </button>
                             </div>
