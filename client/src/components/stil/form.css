@@ -2,6 +2,10 @@ body{
     background-image: url(../../grund.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+    height: 400px;
+}
+.todoapp.stack-large{
+    min-height: 800px;
 }
 .formPage{
     font-family: serif, sans-serif;

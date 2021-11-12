@@ -43,6 +43,9 @@ function TodosComp() {
     }
 
     const editTodo = async (id) => {
+        if (todoTextEditing === "") {
+            return false
+          }
         const newTodo = { title: todoTextEditing }
         await axios.patch(`http://localhost:3000/todo/${id}`, newTodo)
             .then(response => {
