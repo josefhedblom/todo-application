@@ -1,11 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import '../stil/form.css'
-import { useState } from 'react';
 import axios from 'axios';
-// import verify from '../verify';
 
-import { Redirect, Route } from 'react-router'
 
 
 function Register() {
@@ -14,8 +11,7 @@ function Register() {
   const [username, Setusername] = useState('')
   const [email, Setemail] = useState('')
   const [password, Setpassword] = useState('')
-  const [emailToken, SetEmailToken] = useState('')
-  const [isemailToken, SetIsEmailToken] = useState(false)
+
   const handleUsernameInput = (e) => {
     Setusername(e.target.value)
   }
@@ -29,31 +25,14 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault()
     const newUser = { username: username, email: email, password: password }
-    console.log(newUser)
-    
-    axios.post('http://localhost:3000/signup', newUser)
-    .then(response => {
-      if (response.status === 201) {
-        SetEmailToken(response.data.emailVerfication)
-        SetIsEmailToken(true)
-        console.log('User is created', response.data.emailVerfication)
-        // return <Redirect to='/verify'/>
-      }
-    }).catch(error => {
-      console.log(error)
-    })
-  }
 
-  const verifyEmail = () => {
-    axios.get(emailToken)
+    axios.post('/signup', newUser)
       .then(response => {
-        console.log(response.data)
-        history.push("/login");
-
-        // <verify link={response.data.emailVerfication} />
-      })
-      .catch(error => {
-        console.log(error);
+        if (response.status === 201) {
+          history.push('/verify', { link: response.data.emailVerfication })
+        }
+      }).catch(error => {
+        console.log(error)
       })
   }
   const logInLink = () => {
@@ -78,7 +57,6 @@ function Register() {
         </div>
         <button onClick={logInLink} >redan medlem? logga in här</button>
       </div>
-      <button onClick={verifyEmail}>Verify Email</button>
     </div>
   )
 }

@@ -38,3 +38,11 @@ a{
     margin: 10px;
     padding: 10px;
 }
+
+.verify-email-link {
+    text-align: center;
+    font-size: 3rem;
+}
+.verify-email-btn {
+    cursor: pointer;
+}

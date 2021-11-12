@@ -1,9 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useHistory } from "react-router-dom";
-import { useState } from 'react';
 import '../stil/form.css'
 import axios from 'axios';
-import Register from '../register/Register';
 
 
 function Login() {
@@ -23,10 +21,9 @@ function Login() {
     e.preventDefault()
     const newUser = { username: username, password: password }
 
-    axios.post('http://localhost:3000/login', newUser)
+    axios.post('/login', newUser)
       .then(response => {
         if (response.status === 200) {
-          console.log('User is in')
           history.push("/todos");
         }
       }).catch(error => {
@@ -34,17 +31,6 @@ function Login() {
       })
   }
 
-  const logOut = () => {
-    axios.get('http://localhost:3000/logout')
-      .then(response => {
-        if (response.status === 200) {
-          console.log('logged out')
-          history.push("/");
-        }
-      }).catch(error => {
-        console.log(error)
-      })
-  }
   const RegisterLink = () => {
     history.push("/");
   }
@@ -55,7 +41,7 @@ function Login() {
 
         <form id='userForm' onSubmit={handleSubmit}>
           <input label="Username:" type="text" name="username" onChange={handleEmailInput} placeholder="Username" />
-          <input label="Password:" type="password" name="password" onChange={handlePasswordInput} placeholder="Password" minlength="8" />
+          <input label="Password:" type="password" name="password" onChange={handlePasswordInput} placeholder="Password" />
           <div id='knappDiv'>
             <button type="submit" id="skickaKnapp">Submit</button>
           </div>
