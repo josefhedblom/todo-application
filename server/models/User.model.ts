@@ -38,7 +38,7 @@ const UserSchema: Schema = new Schema({
   password: {
     type: String,
     required: [true, "Password is required"],
-    minlength: [10, "Password must be a minimun length of 10 characters"]
+    minlength: [8, "Password must be a minimun length of 10 characters"]
   },
   isVerified: {
     type: Boolean,

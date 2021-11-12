@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import '../stil/form.css'
 import { useState } from 'react';
 import axios from 'axios';
-import verify from '../verify';
+// import verify from '../verify';
 
 import { Redirect, Route } from 'react-router'
 

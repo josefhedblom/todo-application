@@ -8,7 +8,7 @@ const userRegisterValidationCheck = [
 
 
 const userLoginValidationCheck = [
-  check('email').isEmail().normalizeEmail(),
+  check('username').isLength({ min: 3 }).trim().escape(),
   check('password').isLength({ min: 8 }).escape()
 ]
 
