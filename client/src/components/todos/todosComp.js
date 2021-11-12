@@ -58,10 +58,14 @@ function TodosComp() {
         await axios.delete(`http://localhost:3000/todo/${todoId}`)
         fetchData()
     }
+    const logout = async () => {
+        await axios.get(`http://localhost:3000/logout`)
+        history.push("/login");
+    }
     return (
         <div>
-
             <div className="todoapp stack-large">
+                <button onClick={logout} > log out </button>
                 <h1>Missions</h1>
                 <form onSubmit={handleSubmit}>
                     <input
@@ -70,8 +74,10 @@ function TodosComp() {
                         label="Todo" name="todo"
                         type="text" onChange={(e) => SetTodo(e.target.value)}
                         value={todo}
-                    />
-                    <button on type="submit" className="btn btn__primary btn__lg">
+                        // minLength="1"
+                        />
+                        
+                    <button type="submit" className="btn btn__primary btn__lg">
                         Add
                     </button>
                 </form>
@@ -103,7 +109,7 @@ function TodosComp() {
                                 )}
 
                                 <button onClick={() => deleteTodo(todo._id)} type="submit" className="btn btn__danger">
-                                    Delete <span className="visually-hidden"></span>
+                                    Done <span className="visually-hidden"></span>
                                 </button>
                             </div>
                         </li>

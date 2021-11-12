@@ -3,6 +3,9 @@ import { useHistory } from "react-router-dom";
 import '../stil/form.css'
 import { useState } from 'react';
 import axios from 'axios';
+import verify from '../verify';
+
+import { Redirect, Route } from 'react-router'
 
 
 function Register() {
@@ -27,17 +30,18 @@ function Register() {
     e.preventDefault()
     const newUser = { username: username, email: email, password: password }
     console.log(newUser)
-
+    
     axios.post('http://localhost:3000/signup', newUser)
-      .then(response => {
-        if (response.status === 201) {
-          SetEmailToken(response.data.emailVerfication)
-          SetIsEmailToken(true)
-          console.log('User is created', response.data.emailVerfication)
-        }
-      }).catch(error => {
-        console.log(error)
-      })
+    .then(response => {
+      if (response.status === 201) {
+        SetEmailToken(response.data.emailVerfication)
+        SetIsEmailToken(true)
+        console.log('User is created', response.data.emailVerfication)
+        // return <Redirect to='/verify'/>
+      }
+    }).catch(error => {
+      console.log(error)
+    })
   }
 
   const verifyEmail = () => {
@@ -45,10 +49,15 @@ function Register() {
       .then(response => {
         console.log(response.data)
         history.push("/login");
+
+        // <verify link={response.data.emailVerfication} />
       })
       .catch(error => {
         console.log(error);
       })
+  }
+  const logInLink = () => {
+    history.push("/login")
   }
   return (
 
@@ -67,7 +76,7 @@ function Register() {
         <div>
 
         </div>
-        <a href='../../login/LoginJs' >redan medlem? logga in här</a>
+        <button onClick={logInLink} >redan medlem? logga in här</button>
       </div>
       <button onClick={verifyEmail}>Verify Email</button>
     </div>
