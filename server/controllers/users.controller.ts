@@ -46,12 +46,12 @@ export const loginUser = async (req: Request, res: Response) => {
   const { username, password } = req.body;
   const authUser = await UserModel.findOne({ username });
 
-  if (!authUser!.isVerified) {
-    return res.status(401).json({ message: "Verify your account befor loggin" })
-  }
-
   if (!authUser) {
     return res.status(401).json({ message: "Authentication Error - Invalid Credentials" })
+  }
+
+  if (!authUser!.isVerified) {
+    return res.status(401).json({ message: "Verify your account befor loggin" })
   }
 
   const authPassword = authUser?.comparePassword(password)
