@@ -19,7 +19,6 @@ function TodosComp() {
                 SetTodos(results.data.todos)
             })
             .catch(error => {
-                console.log(error)
                 history.push("/login");
             })
         return () => {
@@ -30,15 +29,18 @@ function TodosComp() {
         fetchData()
     }, []);
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault()
         const newTodo = { title: todo }
         await axios.post(`/todo/new/`, newTodo)
             .then(response => {
-                SetTodo("")
-                fetchData()
+                if (response.status === 201) {
+                    SetTodo("")
+                    fetchData()
+                }
             })
             .catch(error => {
-                console.log(error)
+                console.log(error.response.data.errors)
             })
     }
 
