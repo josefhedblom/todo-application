@@ -27,7 +27,7 @@ function Login() {
           history.push("/todos");
         }
       }).catch(error => {
-        console.log(error)
+        console.log(error.response.data.errors)
       })
   }
 

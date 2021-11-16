@@ -32,7 +32,7 @@ function Register() {
           history.push('/verify', { link: response.data.emailVerfication })
         }
       }).catch(error => {
-        console.log(error)
+        console.log(error.response.data.errors)
       })
   }
   const logInLink = () => {

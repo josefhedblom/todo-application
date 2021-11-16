@@ -3,6 +3,7 @@ import emailVerfication from '../helpers/emailVerfication.helper'
 import { SECRET_TOKEN } from '../config/env.config'
 import UserModel from '../models/User.model';
 import jwt from 'jsonwebtoken';
+import bcrypt from "bcrypt";
 
 export const account = async (req: Request, res: Response) => {
   try {
@@ -46,19 +47,13 @@ export const loginUser = async (req: Request, res: Response) => {
   const { username, password } = req.body;
   const authUser = await UserModel.findOne({ username });
 
-  if (!authUser) {
-    return res.status(401).json({ message: "Authentication Error - Invalid Credentials" })
-  }
+  if (!authUser) return res.status(401).json({ errors: "Authentication Error - Invalid Credentials" })
 
-  if (!authUser!.isVerified) {
-    return res.status(401).json({ message: "Verify your account befor loggin" })
-  }
+  if (!authUser!.isVerified) return res.status(401).json({ errors: "Verify your account befor loggin" })
 
-  const authPassword = authUser?.comparePassword(password)
+  const authPassword = await bcrypt.compare(password, authUser.password!);
 
-  if (!authPassword) {
-    return res.status(401).json({ message: "Authentication Error - Invalid Credentials" })
-  }
+  if (!authPassword) return res.status(401).json({ errors: "Authentication Error - Invalid Credentials" })
 
   const payload = { id: authUser._id }
   const accessToken = jwt.sign(payload, SECRET_TOKEN, { algorithm: 'HS256', expiresIn: "1h" });
